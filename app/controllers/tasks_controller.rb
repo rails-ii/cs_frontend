@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   def index
     respond_to do |format|
       format.json do
-        render :json => { :tasks => Task.all.to_json }
+        render :json => { :tasks => Task.all }
       end
     end
   end
