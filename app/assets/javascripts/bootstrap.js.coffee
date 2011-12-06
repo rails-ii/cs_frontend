@@ -5,12 +5,18 @@ class Bootstrap
   constructor: (@name) ->
 
   run: =>
-    $("#task-list-ul").append("<li>finish this app</li>")
-    $("#task-list-ul").append("<li>finish the lecture</li>")
+    @addTaskToList("finish this app")
 
-    $("#submit-button").click(@onNewTaskSubmit)
+    $("#task-form").submit(@onNewTaskSubmit)
+
+  addTaskToList: (taskName) =>
+    $("#task-list-ul").append("<li>#{taskName}</li>")
 
   onNewTaskSubmit: (event) =>
     event.preventDefault()
+    element = $("#new-task-name")
+    taskName = element.val()
+    @addTaskToList(taskName)
+    element.val("")
+    
 
-    console.log("hi")
