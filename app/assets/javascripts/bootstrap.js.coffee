@@ -18,5 +18,8 @@ class Bootstrap
     taskName = element.val()
     @addTaskToList(taskName)
     element.val("")
-    
 
+
+    baseUrl = "http://localhost:3001"
+    $.post("#{baseUrl}/tasks", {name : taskName},
+            -> console.log("added on server"))
