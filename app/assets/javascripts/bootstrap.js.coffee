@@ -1,12 +1,36 @@
 $ ->
   new Bootstrap("app").run()
 
-class Bootstrap
+class TaskManager
+  constructor: (@tasks) ->
+
+class Task
   constructor: (@name) ->
 
-  run: =>
-    @addTaskToList("finish this app")
+class ServerSide
+  constructor: ->
+    @baseUrl = "http://localhost:3001"
 
+  createTask: (name, onConfirm) =>
+    $.post("#{@baseUrl}/tasks", {name : name}, onConfirm)
+
+  loadModel: (onLoaded) =>
+    $.get("#{@baseUrl}/tasks", {}, onLoaded)
+
+            
+
+class Bootstrap
+  constructor: (@name) ->
+    @serverSide = new ServerSide()
+    @serverSide.loadModel(@onModelLoaded)
+
+  onModelLoaded: (data) =>
+    console.log("model loaded")
+    console.log(data)
+    task = new Task("finish this app")
+    @manager = new TaskManager([task])
+
+  run: =>
     $("#task-form").submit(@onNewTaskSubmit)
 
   addTaskToList: (taskName) =>
@@ -18,8 +42,4 @@ class Bootstrap
     taskName = element.val()
     @addTaskToList(taskName)
     element.val("")
-
-
-    baseUrl = "http://localhost:3001"
-    $.post("#{baseUrl}/tasks", {name : taskName},
-            -> console.log("added on server"))
+    @serverSide.createTask(taskName, (e) -> console.log("added on server"))
