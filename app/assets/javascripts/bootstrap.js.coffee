@@ -3,8 +3,7 @@ $ ->
 
 class Bootstrap
   constructor: (@name) ->
-    alert("here")
 
   run: =>
-    alert(@name)
-    alert("and here")
+    $("#task-list-ul").append("<li>finish this app</li>")
+    $("#task-list-ul").append("<li>finish the lecture</li>")
